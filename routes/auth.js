@@ -13,6 +13,17 @@ const generateToken = (id) => {
 
 // Create email transporter
 const getTransporter = () => {
+  const host = process.env.SMTP_HOST || '';
+  if (host.includes('gmail')) {
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.SMTP_USER || '',
+        pass: process.env.SMTP_PASS || '',
+      },
+    });
+  }
+
   const port = parseInt(process.env.SMTP_PORT || '2525');
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.mailtrap.io',
