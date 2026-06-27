@@ -142,8 +142,8 @@ router.post('/', protect, async (req, res) => {
     const registration = new Registration(req.body);
     const savedRegistration = await registration.save();
     
-    // Trigger automated success email asynchronously
-    sendSuccessEmail(savedRegistration);
+    // Await success email so Vercel doesn't freeze the execution container
+    await sendSuccessEmail(savedRegistration);
 
     res.status(201).json(savedRegistration);
   } catch (error) {
